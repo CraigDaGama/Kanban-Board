@@ -1,48 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-function Card({ card, columnId, onEdit }) {
+function Card({ card, columnId, onDragStart, isBeingDragged, isOverTrash, onEdit }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(card.title);
+  const inputRef = useRef(null);
 
-  const handleDoubleClick = () => {
-    setIsEditing(true);
-  };
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
 
-  const handleEditSave = () => {
+  const handleSave = () => {
     const trimmed = editedTitle.trim();
-    if (trimmed) {
+    if (trimmed && trimmed !== card.title) {
       onEdit(card.id, columnId, trimmed);
-    } else {
-      setEditedTitle(card.title); // reset to original if blank
     }
     setIsEditing(false);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") handleEditSave();
-    if (e.key === "Escape") {
+    if (e.key === "Enter") {
+      handleSave();
+    } else if (e.key === "Escape") {
       setEditedTitle(card.title);
       setIsEditing(false);
     }
   };
 
-  const handleDragStart = (e) => {
-    const data = { cardId: card.id, fromColumnId: columnId };
-    e.dataTransfer.setData("text/plain", JSON.stringify(data));
-  };
-
   return (
-    <div className="card" draggable onDragStart={handleDragStart}>
+    <div
+      className={`card ${isBeingDragged && isOverTrash ? "delete-hover" : ""}`}
+      draggable
+      onDragStart={onDragStart}
+    >
       {isEditing ? (
         <input
+          ref={inputRef}
           value={editedTitle}
           onChange={(e) => setEditedTitle(e.target.value)}
-          onBlur={handleEditSave}
+          onBlur={handleSave}
           onKeyDown={handleKeyDown}
-          autoFocus
+          className="edit-input"
         />
       ) : (
-        <div className="card-row" onDoubleClick={handleDoubleClick}>
+        <div className="card-row" onDoubleClick={() => setIsEditing(true)}>
           <span className="dot" />
           <span className="card-title">{card.title}</span>
         </div>

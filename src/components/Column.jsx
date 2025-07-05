@@ -1,63 +1,48 @@
 import React, { useState } from "react";
 import Card from "./Card";
 
-function Column({ column, onAddCard, onMoveCard, onDeleteCard, onEditCard, color }) {
+function Column({ title, columnId, cards, onDropCard, onDragStart, draggedCard, isOverTrash, headerColor, onEditCard }) {
   const [newCardTitle, setNewCardTitle] = useState("");
 
-  // Add card form handler
-  const handleSubmit = (e) => {
+  const handleAddCard = (e) => {
     e.preventDefault();
-    if (newCardTitle.trim() === "") return;
-    onAddCard(column.id, newCardTitle);
+    if (!newCardTitle.trim()) return;
+    const newCard = {
+      id: Date.now(),
+      title: newCardTitle,
+    };
+    onDropCard(columnId, newCard);
     setNewCardTitle("");
-  };
-
-  // Drag and drop handlers
-  const handleDragOver = (e) => {
-    e.preventDefault();
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
-    const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-    if (data.fromColumnId !== column.id) {
-      onMoveCard(data.cardId, data.fromColumnId, column.id);
+    if (draggedCard) {
+      onDropCard(columnId, draggedCard);
     }
   };
 
   return (
-    <div
-      className="column"
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-    >
-      {/* Colored top header */}
+    <div className="column" onDragOver={(e) => e.preventDefault()} onDrop={handleDrop}>
       <div
         className="column-header"
-        style={{
-          backgroundColor: color,
-          color: "var(--nord6)",
-        }}
+        style={{ backgroundColor: headerColor }}
       >
-        {column.title}
+        {title}
       </div>
+      {cards.map((card) => (
+        <Card
+          key={card.id}
+          card={card}
+          onDragStart={() => onDragStart(card)}
+          isBeingDragged={draggedCard?.id === card.id}
+          isOverTrash={isOverTrash}
+          columnId={columnId}
+          onEdit={(cardId, columnId, newTitle) => onEditCard(cardId, columnId, newTitle)}
+        />
+      ))}
 
-      {/* Cards */}
-      <div className="cards">
-        {column.cards.map((card) => (
-          <Card
-            key={card.id}
-            card={card}
-            columnId={column.id}
-            onDelete={onDeleteCard}
-            onEdit={onEditCard}
-          />
-        ))}
-      </div>
-
-
-      {/* Add new card form */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleAddCard}>
         <input
           type="text"
           value={newCardTitle}

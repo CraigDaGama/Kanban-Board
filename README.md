@@ -40,32 +40,27 @@ A sleek, Nord-themed Kanban board built with React and Vite, styled using CSS. F
 ## 🚀 Getting Started
 
 ### 1. Clone the repository
-```bash
+````bash
 git clone https://github.com/yourusername/kanban-board.git
 cd kanban-board
 ````
 
 ### 2. Install dependencies
 
-```bash
+````bash
 npm install
-```
+````
 
 ### 3. Run the app
 
-```bash
+````bash
 npm run dev
-```
+````
 
 > Your app will be running at `http://localhost:5173`
 
 ---
 
-## 📦 Build for Production
-
-```bash
-npm run build
-```
 
 ---
 
@@ -86,8 +81,8 @@ npm run build
 
 * 🧭 Add card drag-to-reorder within columns
 * 💾 Persist board state with localStorage or a backend
-* 🖥 Package as a desktop app using **Tauri** or **Electron**
-* ✅ Add swimlanes and WIP limits
+* 🖥 Package as a desktop app 
+
 
 ---
 
@@ -96,14 +91,3 @@ npm run build
 This project is licensed under the [MIT License](./LICENSE).
 
 ---
-
-## 👨‍💻 Author
-
-Built with ❤️ by [Your Name](https://github.com/yourusername)
-
-```
-
----
-
-Would you like me to generate a live preview GIF and a proper screenshot for GitHub too?
-```

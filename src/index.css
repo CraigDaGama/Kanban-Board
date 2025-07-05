@@ -66,29 +66,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-
-.trash-zone {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  background-color: var(--nord11);
-  color: var(--nord6);
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  transition: transform 0.2s, background-color 0.3s;
-}
-
-.trash-zone:hover,
-.trash-zone.drag-over {
-  transform: scale(1.1);
-  background-color: var(--nord11);
-  cursor: pointer;
-}
