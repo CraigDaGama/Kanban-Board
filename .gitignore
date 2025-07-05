@@ -7,18 +7,41 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Local environments
 *.local
 
-# Editor directories and files
+# Tauri Rust build output
+/src-tauri/target/
+/src-tauri/.cargo-lock
+/src-tauri/Cargo.lock
+
+# Vite cache
+.vite/
+
+# Tauri dev app
+*.exe
+*.msi
+
+# OS/IDE files
+.DS_Store
+Thumbs.db
+.idea/
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Optional: lock files if you don't want them committed
+# package-lock.json
+# yarn.lock
+# Cargo.lock
